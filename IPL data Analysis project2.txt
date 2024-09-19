@@ -1,0 +1,40 @@
+import pandas as pd 
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+
+df = pd.read_csv(r'C:\Users\patid\Desktop\Python\IPL 2022.csv.csv')
+print(df)
+
+#NUMBER OF MATCHES WON BY EACH TEAM IN IPL 2022
+figure = px.bar(df, x = df["match_winner"], title = "Number of matches won in IPL 2022")
+figure.show()
+
+
+df['won_by']= df['won_by'].map({'Wickets':'Chasing',
+                                'Runs':'Defending'})
+won_by = df['won_by'].value_count()
+label = won_by.index
+counts = won_by.values
+colors = ['red','lightgreen']
+
+fig = go.Figure(df=[go.Pie(label = label, values = counts)])
+fig.update_layout(title_text = "Number of matches won by defendingor chasing ")
+fig.update_traces(hoverinfo = 'label+percent', textinfo = 'value',textfont_size = 30,
+                  marker = dict(colors = colors,line = dict(color = 'black', width = 3))
+                  )
+fig.show()
+
+
+
+figure = px.bar(df,x=df["best_bowling"], title = "best bowling in IPL 2022")
+figure.show()
+
+figure = px.bar(df,x = ["player_of_the_match"], title = "Most player of the match award")
+figure.show()
+
+# TOP SCORER IN IPL 2022
+figure = px.bar(df,x = df["top scorer"],
+                          y = df["highscrore"], color = df['highscore'], title = "Top scorers in IPL 2022")
+figure.show()
+
